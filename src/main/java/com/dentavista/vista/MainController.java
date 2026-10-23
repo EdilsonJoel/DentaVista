@@ -29,7 +29,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-/** Panel principal: menú lateral, área de contenido, diálogos y notificaciones. */
+/**
+ * Panel principal: menú lateral, área de contenido, diálogos y notificaciones.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Component
 @RequiredArgsConstructor
 public class MainController implements Navegador {
@@ -46,6 +50,7 @@ public class MainController implements Navegador {
     private final ObjectProvider<AgendaVista> agenda;
     private final ObjectProvider<MisCitasVista> misCitas;
     private final com.dentavista.servicio.CitaService citas;
+    private final com.dentavista.servicio.UsuarioService cuentas;
 
     @FXML private StackPane raiz;
     @FXML private StackPane contenido;
@@ -127,6 +132,9 @@ public class MainController implements Navegador {
         lblRol.setText(u.getRol().getEtiqueta() + (u.getColegiatura() != null ? " · " + u.getColegiatura() : "")
                 + (paciente ? " · DNI " + u.getPaciente().getDni() : ""));
         lblClinica.setText(clinica.nombre());
+        tarjetaUsuario.getStyleClass().add("tarjeta-usuario-clic");
+        Ui.tooltip(tarjetaUsuario, "Mi cuenta: cambiar contraseña");
+        tarjetaUsuario.setOnMouseClicked(e -> miCuenta());
 
         Runnable iconoTema = () -> {
             boolean oscuro = tema.oscuroProperty().get();
@@ -147,6 +155,24 @@ public class MainController implements Navegador {
                 }));
 
         irA(paciente ? Seccion.MI_ODONTOGRAMA : Seccion.INICIO);
+    }
+
+    /** Datos de la propia cuenta y cambio de contraseña. */
+    private void miCuenta() {
+        Usuario u = sesion.getUsuario();
+        javafx.scene.layout.HBox quien = new javafx.scene.layout.HBox(12, Ui.avatar(u.iniciales(), u.getNombre(), 44),
+                new VBox(2, Ui.etiqueta(u.getNombre(), "texto-fuerte"),
+                        Ui.etiqueta("@" + u.getUsuario() + " · " + u.getRol().getEtiqueta(), "texto-tenue")));
+        quien.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        javafx.scene.control.PasswordField actual = new javafx.scene.control.PasswordField();
+        javafx.scene.control.PasswordField nueva = new javafx.scene.control.PasswordField();
+        javafx.scene.control.PasswordField repetir = new javafx.scene.control.PasswordField();
+        VBox contenido = new VBox(12, quien, Ui.campo("Contraseña actual", actual), Ui.campo("Nueva contraseña", nueva),
+                Ui.campo("Confirmar", repetir), com.dentavista.ui.ClaveSegura.requisitos(nueva, repetir));
+        notificador.dialogo(Feather.USER, "Mi cuenta", contenido, "Cambiar contraseña", false, () -> {
+            cuentas.cambiarClave(actual.getText(), nueva.getText(), repetir.getText());
+            notificador.exito("Tu contraseña se cambió.");
+        }, 460);
     }
 
     private static void mostrarNav(Node n, boolean visible) {

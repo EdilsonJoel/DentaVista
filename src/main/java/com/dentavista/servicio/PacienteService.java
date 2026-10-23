@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 @Service
 @RequiredArgsConstructor
 @Transactional

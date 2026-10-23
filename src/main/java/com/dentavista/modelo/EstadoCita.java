@@ -1,6 +1,10 @@
 package com.dentavista.modelo;
 
-/** Ciclo de vida de una cita. */
+/**
+ * Ciclo de vida de una cita.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 public enum EstadoCita {
 
     SOLICITADA("Por confirmar", "#f59e0b"),

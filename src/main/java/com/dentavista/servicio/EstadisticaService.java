@@ -11,7 +11,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/** Indicadores de la pantalla de inicio (los de dinero vienen de {@link PagoService}). */
+/**
+ * Indicadores de la pantalla de inicio (los de dinero vienen de {@link PagoService}).
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

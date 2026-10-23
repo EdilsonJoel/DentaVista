@@ -11,6 +11,8 @@ import java.io.UncheckedIOException;
 /**
  * Conversion de imagenes de JavaFX a PNG sin depender del modulo javafx-swing:
  * se copian los pixeles a un {@link BufferedImage} y se codifican con ImageIO.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public final class Imagenes {
 

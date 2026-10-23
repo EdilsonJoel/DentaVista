@@ -55,6 +55,8 @@ import java.util.function.BiConsumer;
  * </ul>
  * Cada cara de cada diente es una malla propia, de modo que se puede colorear una
  * caries solo en la cara oclusal de un molar, igual que en un odontograma de papel.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public class VisorDental3D extends StackPane {
 
@@ -429,6 +431,24 @@ public class VisorDental3D extends StackPane {
         double angulo = Math.toDegrees(Math.atan2(c.getX(), -c.getZ() + 60));
         double inclinacion = Pieza.esSuperior(fdi) ? -10 : 22;
         animarVista(inclinacion, -angulo, DISTANCIA_INICIAL * 0.62);
+    }
+
+    /** Igual que {@link #enfocar(int)} pero sin animación (para capturas). */
+    public void ponerEnfoque(int fdi) {
+        Point3D c = centros.get(fdi);
+        if (c == null) {
+            return;
+        }
+        if (animacionVista != null) {
+            animacionVista.stop();
+        }
+        giroAutomatico.set(false);
+        mostrarArcos(true, true);
+        desplazamiento.setX(0);
+        desplazamiento.setY(0);
+        giroY.setAngle(-Math.toDegrees(Math.atan2(c.getX(), -c.getZ() + 60)));
+        giroX.setAngle(Pieza.esSuperior(fdi) ? -10 : 22);
+        camara.setTranslateZ(-DISTANCIA_INICIAL * 0.62);
     }
 
     private void animarVista(double rx, double ry, double distancia) {

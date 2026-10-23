@@ -41,6 +41,8 @@ import java.util.function.Consumer;
  * Diálogo para agendar (personal) o solicitar (paciente) una cita. Muestra solo los
  * horarios libres del odontólogo elegido y permite ligar la cita a un tratamiento
  * pendiente del plan.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Component
 @RequiredArgsConstructor

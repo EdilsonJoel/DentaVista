@@ -1,6 +1,10 @@
 package com.dentavista.modelo;
 
-/** Roles del consultorio y lo que cada uno puede hacer. */
+/**
+ * Roles del consultorio y lo que cada uno puede hacer.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 public enum Rol {
 
     ADMIN("Administrador"),

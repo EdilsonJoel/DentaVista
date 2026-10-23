@@ -48,6 +48,8 @@ import java.util.Locale;
  *   <li><b>Presupuesto</b>: tratamientos con importes, lo pagado y el saldo. Sin imágenes.</li>
  *   <li><b>Recibo</b> (A5) y <b>receta</b> (A5).</li>
  * </ul>
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Service
 @RequiredArgsConstructor
@@ -86,6 +88,107 @@ public class PdfService {
     /** Presupuesto: tratamientos con importes, lo pagado y el saldo por pagar. */
     public Path presupuesto(Paciente p, List<ItemPlan> items, PlanService.Totales totales, PagoService.Cuenta cuenta) {
         return guardar("Presupuesto", p, out -> escribirPresupuesto(out, p, items, totales, cuenta));
+    }
+
+    /**
+     * Historial de una sola pieza: acercamiento 3D, resumen y evolución consulta por
+     * consulta con el diagrama de sus caras tras cada una.
+     *
+     * @param diagramas un PNG por evento, en el mismo orden que {@code h.eventos()}
+     */
+    public Path historialPieza(HistorialPiezaService.Historial h, byte[] pieza3d, List<byte[]> diagramas) {
+        return guardar("Pieza" + h.fdi(), h.paciente(), out -> escribirHistorialPieza(out, h, pieza3d, diagramas));
+    }
+
+    void escribirHistorialPieza(OutputStream out, HistorialPiezaService.Historial h, byte[] pieza3d,
+                                List<byte[]> diagramas) throws DocumentException, IOException {
+        Document doc = abrirA4(out, "Historial de la pieza " + h.fdi(), h.paciente());
+        titulo(doc, "Pieza " + h.fdi() + " · " + h.nombre());
+
+        PdfPTable cab = new PdfPTable(new float[]{1.1f, 1f});
+        cab.setWidthPercentage(100);
+        cab.addCell(celdaImagen(pieza3d, "Estado actual en el odontograma 3D"));
+        PdfPCell res = new PdfPCell();
+        res.setBorder(Rectangle.NO_BORDER);
+        res.setPaddingLeft(14);
+        res.addElement(dato("Estado actual", h.actual().sana() ? "Sana" : h.actual().descripcion()));
+        res.addElement(dato("Consultas con registros", String.valueOf(h.eventos().size())));
+        res.addElement(dato("Primera atención", h.primeraAtencion() == null ? "—"
+                : h.primeraAtencion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+        res.addElement(dato("Tratamientos realizados", h.tratamientosRealizados() + " · " + soles(h.realizado())));
+        res.addElement(dato("Por realizar", h.pendientes().size() + " · " + soles(h.porRealizar())));
+        cab.addCell(res);
+        doc.add(cab);
+
+        titulo(doc, "Evolución de la pieza");
+        PdfPTable t = new PdfPTable(new float[]{0.95f, 0.75f, 3.3f});
+        t.setWidthPercentage(100);
+        encabezado(t, "Fecha", "Cómo quedó", "Hallazgos y tratamientos");
+        for (int i = 0; i < h.eventos().size(); i++) {
+            HistorialPiezaService.Evento e = h.eventos().get(i);
+            PdfPCell fecha = new PdfPCell(new Phrase(e.fecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    f(8.8f, Font.BOLD, TINTA)));
+            fecha.setBorderColor(LINEA);
+            fecha.setPadding(6);
+            t.addCell(fecha);
+            PdfPCell img = new PdfPCell(Image.getInstance(diagramas.get(i)), true);
+            img.setBorderColor(LINEA);
+            img.setPadding(5);
+            t.addCell(img);
+            PdfPCell det = new PdfPCell();
+            det.setBorderColor(LINEA);
+            det.setPadding(6);
+            String quien = e.consulta() == null ? "" : (e.consulta().getMotivo() == null ? "" : e.consulta().getMotivo())
+                    + (e.consulta().getOdontologo() != null ? " · " + e.consulta().getOdontologo().getNombre() : "");
+            if (!quien.isBlank()) {
+                det.addElement(new Paragraph(quien, f(8, Font.ITALIC, GRIS)));
+            }
+            for (var hz : e.hallazgos()) {
+                det.addElement(new Paragraph("• " + hz.getEstado().getEtiqueta()
+                        + (hz.getSuperficie().esCara() ? " — cara " + hz.getSuperficie().etiqueta(h.fdi()).toLowerCase()
+                        : " — pieza completa")
+                        + (hz.getNota() != null && !hz.getNota().isBlank() ? " (" + hz.getNota() + ")" : ""),
+                        f(8.8f, Font.NORMAL, TINTA)));
+            }
+            for (ItemPlan r : e.realizados()) {
+                det.addElement(new Paragraph("✓ " + r.getTratamiento().getNombre() + " — " + soles(r.getPrecio()),
+                        f(8.8f, Font.BOLD, TURQUESA)));
+            }
+            t.addCell(det);
+        }
+        if (h.eventos().isEmpty()) {
+            PdfPCell c = new PdfPCell(new Phrase("Esta pieza no tiene registros: está sana desde la primera consulta.",
+                    f(9, Font.ITALIC, GRIS)));
+            c.setColspan(3);
+            c.setPadding(8);
+            c.setBorderColor(LINEA);
+            t.addCell(c);
+        }
+        doc.add(t);
+
+        if (!h.pendientes().isEmpty()) {
+            titulo(doc, "Tratamientos por realizar en esta pieza");
+            PdfPTable pt = new PdfPTable(new float[]{3f, 1.4f, 1f});
+            pt.setWidthPercentage(100);
+            encabezado(pt, "Tratamiento", "Cara", "Importe");
+            int n = 0;
+            for (ItemPlan i : h.pendientes()) {
+                fila(pt, n++ % 2 == 1, i.getTratamiento().getNombre(),
+                        i.getSuperficie() != null && i.getSuperficie().esCara() ? i.getSuperficie().etiqueta(h.fdi()) : "Pieza",
+                        soles(i.getPrecio()));
+            }
+            doc.add(pt);
+        }
+        firmas(doc, "Recibí el historial de la pieza");
+        doc.close();
+    }
+
+    private Paragraph dato(String rotulo, String valor) {
+        Paragraph p = new Paragraph();
+        p.add(new Chunk(rotulo.toUpperCase() + "\n", f(7.5f, Font.BOLD, GRIS)));
+        p.add(new Chunk(valor, f(10.5f, Font.BOLD, TINTA)));
+        p.setSpacingAfter(8);
+        return p;
     }
 
     private Path guardar(String tipo, Paciente p, Escritor escritor) {
@@ -319,8 +422,12 @@ public class PdfService {
         PdfPCell izq = new PdfPCell();
         izq.setBorder(Rectangle.NO_BORDER);
         izq.addElement(new Paragraph(clinica.nombre(), f(tamNombre, Font.BOLD, TURQUESA)));
-        izq.addElement(new Paragraph("RUC " + clinica.ruc() + " · " + clinica.direccion(), f(8.5f, Font.NORMAL, GRIS)));
-        izq.addElement(new Paragraph(clinica.telefono() + " · " + clinica.email(), f(8.5f, Font.NORMAL, GRIS)));
+        if (!clinica.lineaLegal().isEmpty()) {
+            izq.addElement(new Paragraph(clinica.lineaLegal(), f(8.5f, Font.NORMAL, GRIS)));
+        }
+        if (!clinica.lineaContacto().isEmpty()) {
+            izq.addElement(new Paragraph(clinica.lineaContacto(), f(8.5f, Font.NORMAL, GRIS)));
+        }
         t.addCell(izq);
 
         PdfPCell der = new PdfPCell();

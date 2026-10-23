@@ -1,6 +1,10 @@
 package com.dentavista.modelo;
 
-/** Ciclo de vida de un tratamiento del plan. */
+/**
+ * Ciclo de vida de un tratamiento del plan.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 public enum EstadoItem {
 
     PENDIENTE("Por realizar"),

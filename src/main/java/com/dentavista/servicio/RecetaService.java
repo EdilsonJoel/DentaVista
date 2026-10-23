@@ -15,6 +15,8 @@ import java.util.List;
 /**
  * Recetas: el odontólogo prescribe y el sistema cruza cada medicamento con las
  * alergias y antecedentes del paciente antes de emitirla.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Service
 @RequiredArgsConstructor

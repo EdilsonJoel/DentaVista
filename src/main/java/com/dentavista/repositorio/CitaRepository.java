@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 public interface CitaRepository extends JpaRepository<Cita, Long> {
 
     List<Cita> findByInicioBetweenOrderByInicioAsc(LocalDateTime desde, LocalDateTime hasta);

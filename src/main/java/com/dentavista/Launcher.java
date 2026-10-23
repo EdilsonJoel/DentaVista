@@ -5,6 +5,8 @@ import javafx.application.Application;
 /**
  * Punto de entrada. Se separa de {@link JavaFxApplication} para que el JAR
  * ejecutable arranque JavaFX sin exigir el module-path.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public class Launcher {
 

@@ -1,3 +1,7 @@
+/*
+ * DentaVista · hoja de estilos (tema claro y oscuro).
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 /* =====================================================================
    DentaVista — tema sobre AtlantaFX Primer (claro / oscuro).
    Los colores de interfaz usan los tokens -color-* del tema; aquí solo se
@@ -994,4 +998,98 @@
 
 .kpi-enlace {
     -fx-cursor: hand;
+}
+
+/* ---------------------------------------------------------- asistente de primer uso */
+.asistente-panel {
+    -fx-min-width: 540;
+    -fx-pref-width: 560;
+}
+
+.asistente-numero {
+    -fx-background-color: rgba(255, 255, 255, 0.10);
+    -fx-background-radius: 15;
+    -fx-text-fill: #cbd5e1;
+    -fx-font-weight: bold;
+}
+
+.asistente-numero.activo {
+    -fx-background-color: #14b8a6;
+    -fx-text-fill: white;
+}
+
+.asistente-numero.hecho {
+    -fx-background-color: rgba(20, 184, 166, 0.25);
+    -fx-text-fill: #5eead4;
+}
+
+.asistente-opcion {
+    -fx-background-color: -color-bg-subtle;
+    -fx-background-radius: 10;
+    -fx-padding: 12 14 12 14;
+}
+
+.clave-requisitos {
+    -fx-padding: 2 0 0 2;
+}
+
+/* ------------------------------------------------------------ credenciales a entregar */
+.credencial {
+    -fx-background-color: -color-bg-subtle;
+    -fx-background-radius: 10;
+    -fx-padding: 14 16 14 16;
+}
+
+.credencial-valor {
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.rol-opcion {
+    -fx-background-color: -color-bg-subtle;
+    -fx-background-radius: 10;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+    -fx-padding: 10 12 10 12;
+    -fx-cursor: hand;
+}
+
+.rol-opcion:selected {
+    -fx-border-color: -color-accent-emphasis;
+    -fx-background-color: -color-accent-subtle;
+}
+
+.tarjeta-usuario-clic {
+    -fx-cursor: hand;
+}
+
+/* -------------------------------------------------------------- historial de una pieza */
+.historial-pieza-foto {
+    -fx-background-color: #0e1625;
+    -fx-background-radius: 10;
+}
+
+.historial-pieza-diagrama {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: -color-border-muted;
+    -fx-border-radius: 10;
+    -fx-padding: 8;
+}
+
+.historial-pieza-evento {
+    -fx-background-color: -color-bg-subtle;
+    -fx-background-radius: 12;
+    -fx-padding: 12 14 12 12;
+}
+
+.chip-hallazgo {
+    -fx-background-color: -color-bg-default;
+    -fx-background-radius: 999;
+    -fx-border-color: -color-border-muted;
+    -fx-border-radius: 999;
+    -fx-padding: 3 10 3 8;
+    -fx-font-size: 12px;
 }

@@ -13,7 +13,11 @@ import static com.dentavista.dominio.Superficie.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Registro de hallazgos: validaciones clínicas, consulta del día y deshacer. */
+/**
+ * Registro de hallazgos: validaciones clínicas, consulta del día y deshacer.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class ClinicaServiceTest extends IntegracionBase {
 
     @Autowired

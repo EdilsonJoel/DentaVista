@@ -32,6 +32,8 @@ import java.util.TreeMap;
  *       hacia la arcada opuesta = oclusal, hacia afuera = vestibular, hacia la lengua =
  *       lingual, hacia la linea media = mesial y hacia atras = distal.</li>
  * </ol>
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public final class ModeloDental {
 

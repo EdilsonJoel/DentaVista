@@ -11,7 +11,11 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** El modelo OBJ se reconoce como una dentadura completa con sus caras clinicas. */
+/**
+ * El modelo OBJ se reconoce como una dentadura completa con sus caras clinicas.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class ModeloDentalTest {
 
     private static ModeloDental modelo;

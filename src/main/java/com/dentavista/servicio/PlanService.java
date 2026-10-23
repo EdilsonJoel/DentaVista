@@ -25,6 +25,8 @@ import java.util.Objects;
  * <b>diagnóstico</b> (hallazgos) → <b>plan</b> (generado automáticamente) →
  * <b>presupuesto</b> (PDF) → <b>tratamiento realizado</b>, que a su vez actualiza
  * el odontograma (la caries pasa a obturación, la extracción deja la pieza ausente...).
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Service
 @RequiredArgsConstructor

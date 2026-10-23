@@ -21,7 +21,6 @@ import com.dentavista.servicio.Seguridad;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -39,15 +38,21 @@ import static com.dentavista.dominio.EstadoDental.*;
 import static com.dentavista.dominio.Superficie.*;
 
 /**
- * Datos de demostración: usuarios, catálogo de precios y pacientes con historia
- * clínica real de varios meses (consultas, hallazgos y tratamientos realizados),
- * para que la línea de tiempo del odontograma muestre la evolución de cada boca.
- * Las fechas son relativas a hoy, así la demo nunca envejece.
+ * Datos iniciales y de ejemplo.
+ * <ul>
+ *   <li><b>Catálogo base</b> de tratamientos con precios: siempre se crea al configurar
+ *       el consultorio (luego el administrador ajusta los precios).</li>
+ *   <li><b>Pacientes de ejemplo</b> (opcional, desde el asistente de primer uso): personal
+ *       de ejemplo y 12 pacientes con historia clínica real de varios meses, citas, pagos y
+ *       recetas, para presentar el sistema. Las fechas son relativas a hoy.</li>
+ * </ul>
+ * Con {@code app.demo.enabled=true} una base vacía se llena sola (pruebas y capturas).
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "app.demo.enabled", havingValue = "true", matchIfMissing = true)
 public class DatosDemo implements CommandLineRunner {
 
     private final UsuarioRepository usuarios;
@@ -62,6 +67,10 @@ public class DatosDemo implements CommandLineRunner {
     private final com.dentavista.servicio.PagoService pagosService;
     private final com.dentavista.repositorio.PagoRepository pagosRepo;
     private final com.dentavista.servicio.RecetaService recetasService;
+    private final com.dentavista.servicio.DatosClinica datosClinica;
+
+    @org.springframework.beans.factory.annotation.Value("${app.demo.enabled:false}")
+    private boolean demoAutomatica;
 
     private final Map<String, Tratamiento> catalogo = new TreeMap<>();
     private Usuario draParedes;
@@ -70,11 +79,19 @@ public class DatosDemo implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (usuarios.count() > 0) {
+            if (!datosClinica.configurado()) {
+                // Bases de versiones anteriores: el consultorio estaba en application.properties.
+                tx.executeWithoutResult(s -> datosClinica.guardar(consultorioDeEjemplo()));
+            }
             completarVersionesAnteriores();
             return;
         }
+        if (!demoAutomatica) {
+            return; // producto: la primera vez se abre el asistente de configuración
+        }
         tx.executeWithoutResult(s -> {
-            crearUsuarios();
+            datosClinica.guardar(consultorioDeEjemplo());
+            crearUsuarios(true);
             crearCatalogo();
             crearPacientes();
             crearAccesoPaciente();
@@ -113,8 +130,42 @@ public class DatosDemo implements CommandLineRunner {
 
     // --------------------------------------------------------------- usuarios
 
-    private void crearUsuarios() {
-        usuarios.save(usuario("admin", "admin123", "Administrador del sistema", null, Rol.ADMIN));
+    /** Catálogo base de tratamientos (solo si aún no hay ninguno). */
+    public void cargarCatalogoBase() {
+        if (tratamientos.count() == 0) {
+            tx.executeWithoutResult(s -> crearCatalogo());
+        }
+    }
+
+    /** Personal y pacientes de ejemplo, para conocer DentaVista (asistente de primer uso). */
+    public void cargarEjemplos() {
+        tx.executeWithoutResult(s -> {
+            if (catalogo.isEmpty()) {
+                tratamientos.findAll().forEach(t -> catalogo.put(t.getCodigo(), t));
+            }
+            crearUsuarios(false);
+            crearPacientes();
+            crearAccesoPaciente();
+            crearCitas();
+            crearPagosYRecetas();
+        });
+        log.info("Pacientes de ejemplo cargados: {}", pacientes.count());
+    }
+
+    private static com.dentavista.modelo.Consultorio consultorioDeEjemplo() {
+        return com.dentavista.modelo.Consultorio.builder()
+                .nombre("Clínica Dental Sonrisa Andina")
+                .ruc("20605418731")
+                .direccion("Jr. Lima 452, Juliaca - Puno")
+                .telefono("(051) 32-4580")
+                .email("citas@sonrisaandina.pe")
+                .build();
+    }
+
+    private void crearUsuarios(boolean conAdministrador) {
+        if (conAdministrador) {
+            usuarios.save(usuario("admin", "admin123", "Administrador del sistema", null, Rol.ADMIN));
+        }
         draParedes = usuarios.save(usuario("dra.paredes", "dentista123", "Dra. Lucía Paredes Quispe", "COP 28417", Rol.ODONTOLOGO));
         drMamani = usuarios.save(usuario("dr.mamani", "dentista123", "Dr. Rubén Mamani Condori", "COP 30552", Rol.ODONTOLOGO));
         usuarios.save(usuario("recepcion", "recepcion123", "Milagros Apaza Ticona", null, Rol.ASISTENTE));

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 public interface ItemPlanRepository extends JpaRepository<ItemPlan, Long> {
 
     List<ItemPlan> findByPacienteOrderByCreadoAscIdAsc(Paciente paciente);

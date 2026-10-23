@@ -30,6 +30,8 @@ import java.util.List;
  * Diálogo de receta: medicamentos del vademécum (o escritos a mano) con su indicación
  * habitual precargada. Cruza cada medicamento con las alergias y antecedentes del
  * paciente y exige confirmar las alertas antes de emitir.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Component
 @RequiredArgsConstructor

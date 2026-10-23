@@ -11,7 +11,11 @@ import static com.dentavista.dominio.Superficie.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Reglas de reconstrucción del odontograma a partir de los registros clínicos. */
+/**
+ * Reglas de reconstrucción del odontograma a partir de los registros clínicos.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class OdontogramaTest {
 
     private static final LocalDateTime T0 = LocalDateTime.of(2026, 1, 10, 9, 0);

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 public interface HallazgoRepository extends JpaRepository<Hallazgo, Long> {
 
     List<Hallazgo> findByPacienteOrderByFechaAscIdAsc(Paciente paciente);

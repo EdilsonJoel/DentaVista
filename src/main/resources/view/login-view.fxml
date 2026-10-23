@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -30,29 +29,26 @@
     </StackPane>
 
     <VBox styleClass="login-panel" alignment="CENTER_LEFT">
-        <Label text="Bienvenido de nuevo" styleClass="login-bienvenida"/>
-        <Label fx:id="lblClinica" styleClass="texto-tenue" wrapText="true"/>
-        <Region minHeight="10"/>
+        <!-- El formulario se reemplaza por "Crea tu contraseña" si la cuenta tiene una temporal. -->
+        <VBox fx:id="formulario" spacing="16">
+            <Label fx:id="lblTitulo" text="Bienvenido de nuevo" styleClass="login-bienvenida"/>
+            <Label fx:id="lblClinica" styleClass="texto-tenue" wrapText="true"/>
+            <Region minHeight="10"/>
 
-        <Label text="USUARIO" styleClass="campo-rotulo"/>
-        <TextField fx:id="txtUsuario" promptText="tu.usuario" styleClass="campo-grande"/>
-        <Label text="CONTRASEÑA" styleClass="campo-rotulo"/>
-        <PasswordField fx:id="txtClave" promptText="••••••••" styleClass="campo-grande" onAction="#ingresar"/>
+            <Label text="USUARIO" styleClass="campo-rotulo"/>
+            <TextField fx:id="txtUsuario" promptText="tu.usuario" styleClass="campo-grande"/>
+            <Label text="CONTRASEÑA" styleClass="campo-rotulo"/>
+            <PasswordField fx:id="txtClave" promptText="••••••••" styleClass="campo-grande" onAction="#ingresar"/>
 
-        <Label fx:id="lblError" styleClass="login-error" visible="false" managed="false"/>
+            <Label fx:id="lblError" styleClass="login-error" visible="false" managed="false"/>
 
-        <Button fx:id="btnIngresar" text="Ingresar" styleClass="primario,boton-grande" maxWidth="Infinity"
-                defaultButton="true" onAction="#ingresar"/>
+            <Button fx:id="btnIngresar" text="Ingresar" styleClass="primario,boton-grande" maxWidth="Infinity"
+                    defaultButton="true" onAction="#ingresar"/>
 
-        <Region minHeight="14"/>
-        <VBox styleClass="login-demo">
-            <Label text="Cuentas de demostración" styleClass="campo-rotulo"/>
-            <Hyperlink text="Dra. Lucía Paredes · odontóloga" onAction="#demoOdontologa"/>
-            <Hyperlink text="Administrador del sistema" onAction="#demoAdmin"/>
-            <Hyperlink text="Milagros Apaza · recepción (agenda y pacientes)" onAction="#demoRecepcion"/>
-            <Hyperlink text="Valeria Quispe · paciente (ve su odontograma y pide citas)" onAction="#demoPaciente"/>
+            <Label text="¿Olvidaste tu contraseña? El administrador del consultorio puede restablecerla desde Usuarios."
+                   styleClass="texto-tenue,texto-pequeno" wrapText="true"/>
         </VBox>
         <Region VBox.vgrow="ALWAYS"/>
-        <Label text="© 2026 DentaVista · Proyecto académico UNAJ" styleClass="texto-tenue,texto-pequeno"/>
+        <Label text="© 2026 DentaVista · EREJM · Proyecto académico UNAJ" styleClass="texto-tenue,texto-pequeno"/>
     </VBox>
 </HBox>

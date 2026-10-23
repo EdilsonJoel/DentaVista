@@ -14,7 +14,11 @@ import javafx.util.Duration;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-/** Pequeña fábrica de componentes con el estilo de la aplicación. */
+/**
+ * Pequeña fábrica de componentes con el estilo de la aplicación.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 public final class Ui {
 
     /** Colores de avatar (se elige uno estable por nombre). */

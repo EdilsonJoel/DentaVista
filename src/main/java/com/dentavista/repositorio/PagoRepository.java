@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 public interface PagoRepository extends JpaRepository<Pago, Long> {
 
     List<Pago> findByPacienteOrderByFechaDesc(Paciente paciente);

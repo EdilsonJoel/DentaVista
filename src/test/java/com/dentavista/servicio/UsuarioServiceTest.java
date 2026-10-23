@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Acceso y gestión de usuarios. */
+/**
+ * Acceso y gestión de usuarios.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class UsuarioServiceTest extends IntegracionBase {
 
     @Autowired
@@ -45,7 +49,7 @@ class UsuarioServiceTest extends IntegracionBase {
     @Test
     void soloElAdministradorCreaUsuarios() {
         iniciarSesion(Rol.ODONTOLOGO);
-        Usuario nuevo = Usuario.builder().usuario("nuevo.doc").nombre("Nuevo").rol(Rol.ODONTOLOGO).build();
+        Usuario nuevo = Usuario.builder().usuario("nuevo.doc").nombre("Nuevo").colegiatura("COP 11111").rol(Rol.ODONTOLOGO).build();
         assertThatThrownBy(() -> servicio.guardar(nuevo, "clave123")).isInstanceOf(NegocioException.class);
 
         iniciarSesion(Rol.ADMIN);

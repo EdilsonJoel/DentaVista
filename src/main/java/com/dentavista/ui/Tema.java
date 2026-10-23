@@ -10,7 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.prefs.Preferences;
 
-/** Tema claro / oscuro. La elección se recuerda entre sesiones. */
+/**
+ * Tema claro / oscuro. La elección se recuerda entre sesiones.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Component
 public class Tema {
 

@@ -26,7 +26,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-/** Portal del paciente: su próxima cita, pedir una nueva y su historial de citas. */
+/**
+ * Portal del paciente: su próxima cita, pedir una nueva y su historial de citas.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Component
 @Scope("prototype")
 @RequiredArgsConstructor
@@ -55,7 +59,7 @@ public class MisCitasVista {
         Paciente p = sesion.pacientePropio();
         contenido.getChildren().clear();
         Label titulo = Ui.etiqueta("Mis citas", "titulo-pagina");
-        Label sub = Ui.etiqueta(clinica.nombre() + " · " + clinica.telefono(), "subtitulo-pagina");
+        Label sub = Ui.etiqueta(clinica.telefono().isEmpty() ? clinica.nombre() : clinica.nombre() + " · " + clinica.telefono(), "subtitulo-pagina");
         Button pedir = Ui.primario("Pedir una cita", Feather.CALENDAR);
         pedir.setOnAction(e -> dialogo.abrir(new DialogoCita.Sugerencia(p, null, null, null), c -> dibujar()));
         HBox cab = new HBox(12, new VBox(2, titulo, sub), Ui.espaciador(), pedir);

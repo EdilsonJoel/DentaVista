@@ -33,7 +33,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Function;
 
-/** Catálogo de tratamientos: precios y efecto de cada uno en el odontograma. */
+/**
+ * Catálogo de tratamientos: precios y efecto de cada uno en el odontograma.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Component
 @Scope("prototype")
 @RequiredArgsConstructor

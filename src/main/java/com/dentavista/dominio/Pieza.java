@@ -11,6 +11,8 @@ import java.util.stream.IntStream;
  * </pre>
  * El cuadrante 1 es el superior derecho <b>del paciente</b>, que en un odontograma
  * se dibuja a la izquierda de quien lo mira (el odontologo esta frente al paciente).
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public final class Pieza {
 

@@ -11,6 +11,8 @@ import java.util.Optional;
  * con su indicación habitual y su grupo farmacológico para detectar alergias y
  * contraindicaciones (p. ej. amoxicilina en alérgicos a la penicilina, AINE en
  * pacientes anticoagulados o embarazadas).
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public enum Medicamento {
 

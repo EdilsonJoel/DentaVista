@@ -21,7 +21,11 @@ import static com.dentavista.dominio.Superficie.OCLUSAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Dar de baja (archivar) a pacientes que ya no necesitan atención. */
+/**
+ * Dar de baja (archivar) a pacientes que ya no necesitan atención.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class ArchivoPacienteTest extends IntegracionBase {
 
     @Autowired private PacienteService servicio;

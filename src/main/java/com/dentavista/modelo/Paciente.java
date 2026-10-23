@@ -14,6 +14,7 @@ import java.time.Period;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 @Entity
 @Table(name = "paciente",
         uniqueConstraints = @UniqueConstraint(name = "uk_paciente_dni", columnNames = "dni"))

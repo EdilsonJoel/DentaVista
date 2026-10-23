@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "cita", indexes = {
         @Index(name = "ix_cita_inicio", columnList = "inicio"),
         @Index(name = "ix_cita_paciente", columnList = "paciente_id")})
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 @Getter
 @Setter
 @NoArgsConstructor

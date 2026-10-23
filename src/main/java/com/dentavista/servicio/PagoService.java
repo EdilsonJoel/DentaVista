@@ -24,6 +24,8 @@ import java.util.Map;
  * pagar por adelantado los tratamientos pendientes (queda <b>a favor</b>), pero nunca
  * más que el total de su plan.
  * </p>
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Service
 @RequiredArgsConstructor

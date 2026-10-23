@@ -3,6 +3,8 @@ package com.dentavista.dominio;
 /**
  * Caras de una pieza dental. {@link #PIEZA} representa la pieza completa
  * (ausente, corona, implante...), no una cara concreta.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public enum Superficie {
 

@@ -1,5 +1,7 @@
 # DentaVista — Gestión clínica dental con odontograma 3D
 
+**Equipo EREJM** · Everson Ricardo · Edilson Joel · Michael — Universidad Nacional de Juliaca (UNAJ)
+
 > **Una sola idea, bien resuelta:** el odontólogo registra el estado de la boca del paciente
 > haciendo clic **sobre la cara exacta de cada diente en un modelo 3D**, y el sistema
 > convierte ese diagnóstico en un **plan de tratamiento con presupuesto** y en una
@@ -10,9 +12,10 @@
 ## Descargar
 
 **[⬇ Descargar el instalador para Windows](https://github.com/EdilsonJoel/DentaVista/releases/latest)**:
-baja `DentaVista-2.0.0-Setup.exe`, ábrelo y sigue el asistente (crea el acceso directo en el escritorio).
+baja `DentaVista-2.1.0-Setup.exe`, ábrelo y sigue el asistente (crea el acceso directo en el escritorio).
 Trae su propio Java, **no pide permisos de administrador** y se desinstala desde *Agregar o quitar programas*.
-Entra con `dra.paredes` / `dentista123`.
+La primera vez se abre **Configurar consultorio**: registras los datos de la clínica y creas la cuenta del
+administrador (con la opción de cargar pacientes de ejemplo para conocer el sistema).
 
 > Si Windows muestra *"Windows protegió su PC"* (pasa con todo programa nuevo sin firma digital),
 > pulsa **Más información → Ejecutar de todas formas**.
@@ -39,6 +42,7 @@ recetas existen solo para servirlo; no hay inventario, planillas ni contabilidad
 | | |
 |---|---|
 | **Odontograma 3D** | 32 piezas con notación FDI, cada una dividida en sus 5 caras clínicas. Girar, acercar, desplazar, vistas frontal / oclusal superior / oclusal inferior / laterales, abrir la boca, enfocar una pieza, números flotantes, encías opcionales y **pantalla completa** (`F11`, `Esc` para salir) con la línea de tiempo incluida. |
+| **Historial de una pieza** | Al seleccionar un diente, "Historial completo de la pieza" muestra su acercamiento 3D, su estado, lo realizado y lo pendiente (con importes) y la evolución consulta por consulta con el diagrama de sus caras tras cada una. Se exporta a **PDF**. La pestaña Historial también se filtra por pieza. |
 | **Odontograma 2D** | El formato clínico estándar (siluetas + diagrama de cinco caras + símbolos de ausente, corona, endodoncia, implante), sincronizado con el 3D. |
 | **Hallazgos** | Caries, fractura, obturación, sellante (por cara); endodoncia indicada / realizada, extracción indicada, corona, implante, ausente (pieza completa). **Doble clic en una cara = vuelve a sana** (en la silueta, restablece la pieza). Atajos `1`–`9`, `0` = sano, `Esc`, `Ctrl+Z` para deshacer. |
 | **Validación clínica** | No deja marcar caries en una pieza ausente, ni una corona en una sola cara; el asistente de recepción solo puede consultar. |
@@ -54,7 +58,10 @@ recetas existen solo para servirlo; no hay inventario, planillas ni contabilidad
 | **Recetas** | Vademécum odontológico con la dosis habitual precargada. Cruza cada medicamento con las alergias (amoxicilina en alérgicos a la penicilina) y los antecedentes (AINE en anticoagulados o embarazadas) y exige confirmar las alertas. Emite la receta en PDF y queda en el historial de la consulta. |
 | **Inicio** | Lo del día: citas de hoy, solicitudes por confirmar, lo que hay por cobrar (y a quién), pacientes con tratamientos por realizar sin cita (para llamarlos) y cuántos están para dar de alta. |
 | **Formularios rápidos** | Máscaras de entrada: la fecha se escribe solo con números (`12051996` → 12/05/1996, también `120596`), el celular se formatea solo (951 284 736), el DNI acepta 8 dígitos, montos con 2 decimales, nombres con mayúscula inicial automática y búsqueda de paciente o pieza escribiendo parte del nombre. |
-| **Extras** | Pantalla de carga inmediata al abrir, modo claro / oscuro (también el menú lateral), alertas médicas (alergias, anticoagulantes, embarazo) visibles en toda la ficha, roles (administrador, odontólogo, asistente). |
+| **Primer uso** | Sin cuentas de prueba: la primera vez un asistente de dos pasos registra el consultorio (nombre, RUC, dirección, contacto: salen en todos los PDF) y la cuenta del administrador, con contraseña segura. El catálogo de tratamientos con precios se crea solo; los pacientes de ejemplo son opcionales. |
+| **Cuentas del equipo** | El administrador crea cada cuenta en segundos: elige el rol (odontólogo, asistente, administrador, con lo que puede hacer cada uno), escribe el nombre y el usuario se sugiere solo (`lucia.paredes`). DentaVista genera una **contraseña temporal** para entregarla (con botón Copiar) y la persona crea la suya en su primer ingreso. También restablece contraseñas, desactiva cuentas y edita los datos del consultorio. Cada uno cambia su contraseña desde "Mi cuenta". |
+| **Seguridad** | Contraseñas de 8+ caracteres con letras y números, guardadas con hash SHA-256 y sal; nunca se muestran ni se guardan en claro. El odontólogo debe registrar su colegiatura (COP), que aparece en recetas e informes. |
+| **Extras** | Pantalla de carga inmediata al abrir, modo claro / oscuro (también el menú lateral), alertas médicas (alergias, anticoagulantes, embarazo) visibles en toda la ficha, roles (administrador, odontólogo, asistente, paciente). |
 
 ## Cómo ejecutar
 
@@ -67,23 +74,19 @@ Requisitos: **JDK 17 o superior** (probado con JDK 21). Maven viene incluido (`m
 En Windows: `mvnw.cmd javafx:run`. Desde IntelliJ IDEA: abrir la carpeta como proyecto
 Maven y ejecutar `com.dentavista.Launcher`.
 
-La base de datos `dentavista.db` (SQLite) se crea sola la primera vez con **12 pacientes de
-demostración** con historias de hasta un año (fechas relativas a hoy, la demo nunca
-envejece). Para empezar con la base vacía: `app.demo.enabled=false` en
-`application.properties`.
+La base de datos (SQLite) se crea sola en `%LOCALAPPDATA%\DentaVista`. La primera vez se abre el
+asistente **Configurar consultorio** (datos de la clínica y cuenta del administrador); allí se puede
+marcar *Cargar pacientes de ejemplo* para presentar el sistema con 12 pacientes con historia clínica de
+hasta un año (fechas relativas a hoy), citas, pagos y recetas.
 
-### Usuarios de demostración
+### Cuentas
 
-| Usuario | Contraseña | Rol | Puede |
-|---|---|---|---|
-| `dra.paredes` | `dentista123` | Odontóloga | Todo lo clínico |
-| `dr.mamani` | `dentista123` | Odontólogo | Todo lo clínico |
-| `admin` | `admin123` | Administrador | Todo + usuarios y precios |
-| `recepcion` | `recepcion123` | Asistente | Agenda, pacientes y fichas (sin modificar la historia clínica) |
-| `72845163` | `paciente123` | Paciente | Solo su odontograma, su presupuesto y sus citas |
+No hay usuarios predeterminados. El administrador creado en el asistente entra a **Usuarios** y crea
+la cuenta de cada persona del equipo; DentaVista le entrega una contraseña temporal que esa persona
+cambia en su primer ingreso. El acceso de un paciente se crea desde su ficha (botón de llave).
 
-Paciente recomendado para la demo: **Valeria Quispe Huanca** (6 consultas, todos los tipos
-de hallazgo, alergia a la penicilina).
+Si se cargaron los ejemplos, existen además estas cuentas de ejemplo: `dra.paredes` / `dentista123`,
+`dr.mamani` / `dentista123`, `recepcion` / `recepcion123` y la paciente `72845163` / `paciente123`.
 
 ### Pruebas
 
@@ -91,9 +94,10 @@ de hallazgo, alergia a la penicilina).
 ./mvnw test
 ```
 
-58 pruebas: reglas del odontograma (dominio puro), reconocimiento del modelo 3D,
-servicios clínicos, de plan, agenda (incluido reprogramar), pagos, recetas y archivo de pacientes sobre
-SQLite real, seguridad y datos de demostración.
+65 pruebas: reglas del odontograma (dominio puro), reconocimiento del modelo 3D,
+servicios clínicos, de plan, agenda (incluido reprogramar), pagos, recetas, archivo de pacientes e
+historial de una pieza sobre SQLite real; primer uso (base vacía, sin cuentas de prueba), creación de
+cuentas con contraseña temporal, seguridad y datos de ejemplo.
 
 ### Ejecutable de Windows
 
@@ -102,8 +106,8 @@ SQLite real, seguridad y datos de demostración.
 ejecutable y lo publica en *Releases* listo para descargar:
 
 ```bash
-git tag v2.0.0
-git push origin v2.0.0
+git tag v2.1.0
+git push origin v2.1.0
 ```
 
 **Manual:**
@@ -111,19 +115,19 @@ git push origin v2.0.0
 ```bash
 ./mvnw package -DskipTests
 mkdir build\staging
-copy target\dentavista-2.0.0.jar build\staging\
-jpackage --type app-image --name DentaVista --input build/staging --main-jar dentavista-2.0.0.jar ^
-  --icon build/icono.ico --dest dist --app-version 2.0.0 --vendor "DentaVista"
+copy target\dentavista-2.1.0.jar build\staging\
+jpackage --type app-image --name DentaVista --input build/staging --main-jar dentavista-2.1.0.jar ^
+  --icon build/icono.ico --dest dist --app-version 2.1.0 --vendor "DentaVista"
 ```
 
 Genera `dist/DentaVista/DentaVista.exe` (incluye su propio Java; no requiere instalar nada). Para el
 instalador, con [Inno Setup 6](https://jrsoftware.org/isinfo.php):
 
 ```bash
-iscc /DVersion=2.0.0 build\instalador.iss
+iscc /DVersion=2.1.0 build\instalador.iss
 ```
 
-Genera `dist/DentaVista-2.0.0-Setup.exe`.
+Genera `dist/DentaVista-2.1.0-Setup.exe`.
 
 ### ¿Y en el celular?
 
@@ -175,6 +179,27 @@ Ikonli · OpenPDF · JUnit 5**.
 
 | | |
 |---|---|
+| ![Configurar consultorio](docs/capturas/13-configurar-consultorio.png) | ![Acceso](docs/capturas/01-acceso.png) |
+| ![Inicio](docs/capturas/02-inicio.png) | ![Cuentas del equipo](docs/capturas/14-cuentas.png) |
+| ![Boca abierta](docs/capturas/04-boca-abierta.png) | ![Vista oclusal](docs/capturas/05-vista-oclusal.png) |
+| ![Línea de tiempo](docs/capturas/06-linea-de-tiempo.png) | ![Pantalla completa](docs/capturas/07-pantalla-completa.png) |
+| ![Historial de una pieza](docs/capturas/15-historial-pieza.png) | ![Plan y pagos](docs/capturas/08-plan-y-pagos.png) |
+| ![Agenda](docs/capturas/09-agenda.png) | ![Pacientes para dar de alta](docs/capturas/10-pacientes-alta.png) |
+
+![Informe clínico y presupuesto en PDF](docs/capturas/12-documentos-pdf.png)
+
+## Autores
+
+**Equipo EREJM** — las iniciales aparecen en cada clase (`@author EREJM`), en el `pom.xml`, en el instalador
+y en la documentación.
+
+| Iniciales | Integrante |
+|---|---|
+| ER | Everson Ricardo |
+| EJ | Edilson Joel |
+| M | Michael |
+
+---|---|
 | ![Acceso](docs/capturas/01-acceso.png) | ![Inicio](docs/capturas/02-inicio.png) |
 | ![Boca abierta](docs/capturas/04-boca-abierta.png) | ![Vista oclusal](docs/capturas/05-vista-oclusal.png) |
 | ![Línea de tiempo](docs/capturas/06-linea-de-tiempo.png) | ![Pantalla completa](docs/capturas/07-pantalla-completa.png) |

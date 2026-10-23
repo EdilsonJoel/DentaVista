@@ -7,6 +7,8 @@ package com.dentavista.dominio;
  * lo representa (el mismo en el modelo 3D, el odontograma 2D y el PDF) y, si es una
  * patologia, que tratamiento del catalogo la resuelve.
  * </p>
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public enum EstadoDental {
 

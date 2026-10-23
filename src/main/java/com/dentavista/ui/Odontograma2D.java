@@ -31,6 +31,8 @@ import java.util.function.BiConsumer;
  * silueta y el diagrama de cinco caras. Vestibular hacia afuera de la boca,
  * mesial hacia la línea media. Está sincronizado con el visor 3D y también se usa
  * para el PDF.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public class Odontograma2D extends Region {
 

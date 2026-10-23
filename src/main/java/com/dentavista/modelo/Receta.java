@@ -8,7 +8,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Receta emitida por un odontólogo en la consulta. */
+/**
+ * Receta emitida por un odontólogo en la consulta.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Entity
 @Table(name = "receta", indexes = @Index(name = "ix_receta_paciente", columnList = "paciente_id"))
 @Getter

@@ -22,6 +22,8 @@ import java.util.function.Function;
  * Máscaras de entrada: el usuario escribe solo lo necesario y el campo completa el
  * formato (barras de la fecha, espacios del celular, decimales del monto) y descarta
  * lo que no corresponde, tanto al teclear como al pegar.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public final class Mascaras {
 

@@ -20,7 +20,11 @@ import static com.dentavista.dominio.Superficie.OCLUSAL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Caja (pagos y saldo) y recetas con alertas de alergia. */
+/**
+ * Caja (pagos y saldo) y recetas con alertas de alergia.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class PagoRecetaTest extends IntegracionBase {
 
     @Autowired private PagoService pagos;

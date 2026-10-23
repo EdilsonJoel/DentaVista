@@ -18,7 +18,11 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Los datos de demostración se cargan completos y son clínicamente coherentes. */
+/**
+ * Los datos de demostración se cargan completos y son clínicamente coherentes.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @SpringBootTest
 class DatosDemoTest {
 

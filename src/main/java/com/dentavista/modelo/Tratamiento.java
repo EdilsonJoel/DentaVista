@@ -10,7 +10,11 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-/** Procedimiento del catálogo del consultorio, con su precio y el estado que deja en la pieza. */
+/**
+ * Procedimiento del catálogo del consultorio, con su precio y el estado que deja en la pieza.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Entity
 @Table(name = "tratamiento",
         uniqueConstraints = @UniqueConstraint(name = "uk_tratamiento_codigo", columnNames = "codigo"))

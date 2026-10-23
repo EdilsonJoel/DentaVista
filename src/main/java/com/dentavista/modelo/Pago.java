@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "pago",
         uniqueConstraints = @UniqueConstraint(name = "uk_pago_recibo", columnNames = "recibo"),
         indexes = @Index(name = "ix_pago_paciente", columnList = "paciente_id"))
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 @Getter
 @Setter
 @NoArgsConstructor

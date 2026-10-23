@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
  * Retroalimentación visual: notificaciones flotantes, confirmaciones y diálogos con
  * formulario. Los errores de negocio de un formulario se muestran <b>dentro</b> del
  * diálogo, sin cerrarlo, para no perder lo que el usuario escribió.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Slf4j
 @Component

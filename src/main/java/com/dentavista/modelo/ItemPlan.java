@@ -9,7 +9,11 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/** Una línea del plan de tratamiento (y del presupuesto) de un paciente. */
+/**
+ * Una línea del plan de tratamiento (y del presupuesto) de un paciente.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Entity
 @Table(name = "item_plan", indexes = @Index(name = "ix_item_paciente", columnList = "paciente_id, estado"))
 @Getter

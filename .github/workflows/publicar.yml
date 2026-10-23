@@ -1,3 +1,4 @@
+# @author EREJM (Everson Ricardo · Edilson Joel · Michael)
 # Publica el ejecutable de Windows en "Releases" cada vez que se sube una etiqueta vX.Y.Z.
 #   git tag v2.0.0
 #   git push origin v2.0.0
@@ -31,7 +32,7 @@ jobs:
       - name: Armar el ejecutable (incluye Java, no requiere instalar nada)
         shell: pwsh
         run: |
-          $version = if ($env:GITHUB_REF_TYPE -eq "tag") { $env:GITHUB_REF_NAME.TrimStart("v") } else { "2.0.0" }
+          $version = if ($env:GITHUB_REF_TYPE -eq "tag") { $env:GITHUB_REF_NAME.TrimStart("v") } else { "2.1.0" }
           New-Item -ItemType Directory -Force build/staging | Out-Null
           Copy-Item target/dentavista-*.jar build/staging/
           $jar = (Get-ChildItem build/staging/dentavista-*.jar).Name
@@ -56,7 +57,7 @@ jobs:
           body: |
             **Descarga `DentaVista-…-Setup.exe` y ábrelo**: instala DentaVista con acceso directo en el escritorio y en el menú Inicio.
             No pide permisos de administrador ni necesita Java (lo trae incluido). Si Windows muestra "Windows protegió su PC", pulsa *Más información → Ejecutar de todas formas*.
-            Alternativa sin instalar: `DentaVista-…-portable.zip` (descomprimir y abrir `DentaVista.exe`). Usuarios de prueba: `dra.paredes` / `dentista123`, `recepcion` / `recepcion123`, `admin` / `admin123`.
+            Alternativa sin instalar: `DentaVista-…-portable.zip` (descomprimir y abrir `DentaVista.exe`). La primera vez se abre el asistente para configurar el consultorio y crear la cuenta del administrador.
 
       - name: Guardar el ZIP (ejecución manual)
         if: github.ref_type != 'tag'

@@ -32,6 +32,8 @@ import java.util.function.Function;
 /**
  * Lista de pacientes con búsqueda instantánea por nombre o DNI y tres filtros:
  * activos, para dar de alta (terminaron y pagaron todo) y archivados.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Component
 @Scope("prototype")

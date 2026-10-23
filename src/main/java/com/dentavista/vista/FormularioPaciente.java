@@ -17,7 +17,11 @@ import org.kordamp.ikonli.feather.Feather;
 import java.time.LocalDate;
 import java.util.function.Consumer;
 
-/** Diálogo de alta / edición de paciente (lo usan la lista y la ficha). */
+/**
+ * Diálogo de alta / edición de paciente (lo usan la lista y la ficha).
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 final class FormularioPaciente {
 
     private FormularioPaciente() {

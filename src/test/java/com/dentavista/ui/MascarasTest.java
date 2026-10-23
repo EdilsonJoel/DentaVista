@@ -6,7 +6,11 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Las máscaras completan el formato y descartan lo inválido. */
+/**
+ * Las máscaras completan el formato y descartan lo inválido.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class MascarasTest {
 
     @Test

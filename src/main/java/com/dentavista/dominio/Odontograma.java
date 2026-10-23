@@ -24,6 +24,8 @@ import java.util.TreeMap;
  *   <li>Registro de <b>pieza</b>: fija el estado general; {@code SANO} restablece la pieza
  *       entera. Ausente, implante y corona borran las caras porque ya no existen.</li>
  * </ul>
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public final class Odontograma {
 

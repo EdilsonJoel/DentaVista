@@ -82,6 +82,8 @@ import java.util.function.Function;
  *       realizados / pendientes y PDF.</li>
  *   <li><b>Historial</b>: cada consulta con sus hallazgos y tratamientos.</li>
  * </ul>
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Component
 @Scope("prototype")
@@ -102,6 +104,8 @@ public class FichaVista {
     private final com.dentavista.servicio.PagoService pagos;
     private final com.dentavista.servicio.RecetaService recetas;
     private final DialogoReceta dialogoReceta;
+    private final DialogoHistorialPieza dialogoHistorialPieza;
+    private final com.dentavista.servicio.DatosClinica datosClinica;
 
     private Paciente paciente;
     private Odontograma actual = Odontograma.vacio();
@@ -147,6 +151,8 @@ public class FichaVista {
     private final VBox panelCuenta = new VBox(14);
     private List<com.dentavista.modelo.Receta> recetasDelPaciente = List.of();
     private final VBox listaHistorial = new VBox(0);
+    /** Pieza por la que se filtra la pestaña Historial (null = todas). */
+    private Integer filtroPieza;
 
     public Node vista(Paciente p) {
         this.paciente = pacientes.obtener(p.getId());
@@ -474,10 +480,11 @@ public class FichaVista {
         Button frontal = boton3D("Frontal", Feather.SMILE, visor::vistaFrontal);
         Button sup = boton3D("Superior", Feather.CHEVRONS_UP, visor::vistaSuperior);
         Button inf = boton3D("Inferior", Feather.CHEVRONS_DOWN, visor::vistaInferior);
-        Button der = boton3D("Derecha", Feather.CHEVRON_LEFT, visor::vistaDerecha);
-        Button izq = boton3D("Izquierda", Feather.CHEVRON_RIGHT, visor::vistaIzquierda);
-        Ui.tooltip(der, "Lado derecho del paciente");
-        Ui.tooltip(izq, "Lado izquierdo del paciente");
+        // Laterales solo con ícono: la barra cabe completa también en pantallas de 1366 px.
+        Button der = boton3D(null, Feather.CHEVRON_LEFT, visor::vistaDerecha);
+        Button izq = boton3D(null, Feather.CHEVRON_RIGHT, visor::vistaIzquierda);
+        Ui.tooltip(der, "Vista lateral: lado derecho del paciente");
+        Ui.tooltip(izq, "Vista lateral: lado izquierdo del paciente");
 
         ToggleButton abrir = toggle3D("Abrir boca", Feather.MAXIMIZE_2, visor.bocaAbiertaProperty());
         ToggleButton numeros = toggle3D(null, Feather.HASH, visor.numerosVisiblesProperty());
@@ -497,6 +504,19 @@ public class FichaVista {
 
         HBox h = new HBox(frontal, sup, inf, der, izq, sep(), abrir, sep(), numeros, encias, giro, enfocar, sep(),
                 botonPantallaCompleta);
+        // Barra adaptable: si el visor es angosto (pantallas de 1366/1440 px) los botones muestran
+        // solo su ícono; la ayuda emergente sigue diciendo qué hace cada uno.
+        Ui.tooltip(frontal, "Vista frontal");
+        Ui.tooltip(sup, "Arcada superior (vista oclusal)");
+        Ui.tooltip(inf, "Arcada inferior (vista oclusal)");
+        Ui.tooltip(abrir, "Abrir la boca para ver las caras oclusales");
+        visor.widthProperty().addListener((o, a, ancho) -> {
+            boolean compacta = ancho.doubleValue() < 900;
+            for (javafx.scene.control.ButtonBase b : List.of(frontal, sup, inf, abrir)) {
+                b.setContentDisplay(compacta ? javafx.scene.control.ContentDisplay.GRAPHIC_ONLY
+                        : javafx.scene.control.ContentDisplay.LEFT);
+            }
+        });
         h.getStyleClass().add("barra-3d");
         h.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         StackPane.setAlignment(h, Pos.TOP_CENTER);
@@ -1011,8 +1031,13 @@ public class FichaVista {
             historial.getChildren().add(item);
         }
 
+        Button completo = Ui.secundario("Historial completo de la pieza", Feather.CLOCK);
+        completo.setMaxWidth(Double.MAX_VALUE);
+        Ui.tooltip(completo, "Evolución de la pieza " + fdi + " consulta por consulta, con PDF");
+        completo.setOnAction(ev -> dialogoHistorialPieza.abrir(paciente, fdi));
+
         panelPieza.getChildren().addAll(cab, cajaDiagrama, Ui.etiqueta("CARAS", "campo-rotulo"), caras,
-                acciones, nota, Ui.etiqueta("HISTORIA DE LA PIEZA", "campo-rotulo"), historial);
+                acciones, nota, Ui.etiqueta("HISTORIA DE LA PIEZA", "campo-rotulo"), historial, completo);
     }
 
     private static boolean tienePatologia(Odontograma.EstadoPieza e) {
@@ -1418,11 +1443,57 @@ public class FichaVista {
 
     private void refrescarHistorial() {
         listaHistorial.getChildren().clear();
-        List<Consulta> consultas = clinica.consultas(paciente);
-        Label t = Ui.etiqueta("Historia clínica", "titulo-pagina");
-        Label s = Ui.etiqueta(consultas.size() + " consultas desde " + (consultas.isEmpty() ? "—"
-                : Formato.fecha(consultas.get(consultas.size() - 1).getFecha())), "subtitulo-pagina");
-        VBox cab = new VBox(2, t, s);
+        List<Consulta> todas = clinica.consultas(paciente);
+        List<ItemPlan> realizadosTodos = planes.items(paciente).stream()
+                .filter(i -> i.getEstado() == EstadoItem.REALIZADO && i.getConsulta() != null).toList();
+        // Filtro por pieza: solo las consultas en las que se registró o trató esa pieza.
+        List<Consulta> consultas = filtroPieza == null ? todas : todas.stream()
+                .filter(c -> clinica.hallazgosDe(c).stream().anyMatch(h -> h.getPieza() == filtroPieza)
+                        || realizadosTodos.stream().anyMatch(i -> filtroPieza.equals(i.getPieza())
+                        && i.getConsulta().getId().equals(c.getId())))
+                .toList();
+        Label t = Ui.etiqueta(filtroPieza == null ? "Historia clínica" : "Historia de la pieza " + filtroPieza,
+                "titulo-pagina");
+        Label s = Ui.etiqueta(filtroPieza == null
+                ? todas.size() + " consultas desde " + (todas.isEmpty() ? "—"
+                : Formato.fecha(todas.get(todas.size() - 1).getFecha()))
+                : Pieza.nombre(filtroPieza) + " · " + consultas.size() + " de " + todas.size() + " consultas",
+                "subtitulo-pagina");
+
+        ComboBox<Integer> pieza = new ComboBox<>();
+        java.util.TreeSet<Integer> conRegistros = new java.util.TreeSet<>(
+                java.util.Comparator.comparingInt((Integer f) -> Pieza.TODAS.indexOf(f)));
+        clinica.hallazgos(paciente).forEach(h -> conRegistros.add(h.getPieza()));
+        planes.items(paciente).stream().map(ItemPlan::getPieza).filter(java.util.Objects::nonNull)
+                .forEach(conRegistros::add);
+        pieza.getItems().add(null);
+        pieza.getItems().addAll(conRegistros);
+        pieza.setValue(filtroPieza);
+        pieza.setPrefWidth(300);
+        pieza.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Integer f) {
+                return f == null ? "Todas las piezas" : f + " · " + Pieza.nombre(f);
+            }
+
+            @Override
+            public Integer fromString(String x) {
+                return null;
+            }
+        });
+        pieza.setOnAction(e -> {
+            filtroPieza = pieza.getValue();
+            refrescarHistorial();
+        });
+        Ui.tooltip(pieza, "Mostrar solo las consultas de una pieza");
+        Button detalle = Ui.secundario("Historial de la pieza", Feather.CLOCK);
+        detalle.setDisable(filtroPieza == null);
+        detalle.setOnAction(e -> dialogoHistorialPieza.abrir(paciente, filtroPieza));
+        HBox filtro = new HBox(8, Ui.icono(Feather.FILTER, 15), pieza, detalle);
+        filtro.setAlignment(Pos.CENTER_LEFT);
+
+        HBox cab = new HBox(12, new VBox(2, t, s), Ui.espaciador(), filtro);
+        cab.setAlignment(Pos.CENTER_LEFT);
         cab.setPadding(new Insets(0, 0, 14, 0));
         listaHistorial.getChildren().add(cab);
         if (consultas.isEmpty()) {
@@ -1430,9 +1501,9 @@ public class FichaVista {
                     "La primera consulta se abre automáticamente al registrar un hallazgo."));
             return;
         }
-        recetasDelPaciente = recetas.recetas(paciente);
-        List<ItemPlan> realizados = planes.items(paciente).stream()
-                .filter(i -> i.getEstado() == EstadoItem.REALIZADO && i.getConsulta() != null).toList();
+        recetasDelPaciente = filtroPieza == null ? recetas.recetas(paciente) : List.of();
+        List<ItemPlan> realizados = filtroPieza == null ? realizadosTodos
+                : realizadosTodos.stream().filter(i -> filtroPieza.equals(i.getPieza())).toList();
         for (int k = 0; k < consultas.size(); k++) {
             Consulta c = consultas.get(k);
             listaHistorial.getChildren().add(hito(c, realizados, k == consultas.size() - 1));
@@ -1467,6 +1538,9 @@ public class FichaVista {
 
         FlowPane chips = new FlowPane(6, 6);
         for (Hallazgo h : clinica.hallazgosDe(c)) {
+            if (filtroPieza != null && h.getPieza() != filtroPieza) {
+                continue;
+            }
             String texto = h.getPieza() + (h.getSuperficie().esCara() ? " " + h.getSuperficie().sigla(h.getPieza()) : "")
                     + " · " + h.getEstado().getEtiqueta();
             Label chip = new Label(texto, Ui.muestra(h.getEstado().getColor()));
@@ -1523,19 +1597,28 @@ public class FichaVista {
         var actual = usuarios.accesoDe(paciente);
         javafx.scene.control.TextField login = new javafx.scene.control.TextField(
                 actual.map(com.dentavista.modelo.Usuario::getUsuario).orElse(paciente.getDni()));
-        javafx.scene.control.PasswordField clave = new javafx.scene.control.PasswordField();
-        clave.setPromptText("Mínimo 6 caracteres");
         Label info = Ui.etiqueta(actual.isPresent()
-                ? "Este paciente ya tiene acceso. Escribe una contraseña nueva para renovarla."
-                : "Con este usuario el paciente podrá ver su odontograma 3D, su presupuesto y pedir citas.",
+                ? "Este paciente ya tiene acceso. Se generará una contraseña temporal nueva (la anterior deja de funcionar)."
+                : "Con este acceso el paciente verá su odontograma 3D y su presupuesto, y podrá pedir o reprogramar citas.",
                 "texto-tenue");
         info.setWrapText(true);
-        VBox c = new VBox(12, info, Ui.campo("Usuario", login), Ui.campo("Contraseña", clave));
-        notificador.dialogo(Feather.KEY, "Acceso del paciente", c, actual.isPresent() ? "Renovar contraseña" : "Crear acceso",
-                false, () -> {
-                    var u = usuarios.crearAccesoPaciente(paciente, login.getText(), clave.getText());
-                    notificador.exito("Acceso listo: " + paciente.nombreCompleto() + " entra con el usuario \"" + u.getUsuario() + "\".");
-                }, 460);
+        Label clave = Ui.etiqueta("DentaVista genera una contraseña temporal para entregársela; al ingresar por primera "
+                + "vez el paciente creará la suya.", "texto-tenue", "texto-pequeno");
+        clave.setWrapText(true);
+        clave.setMinHeight(Region.USE_PREF_SIZE);
+        clave.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(clave, Priority.ALWAYS);
+        HBox nota = new HBox(10, Ui.icono(Feather.LOCK, 16), clave);
+        nota.setAlignment(Pos.CENTER_LEFT);
+        nota.getStyleClass().add("asistente-opcion");
+        VBox c = new VBox(12, info, Ui.campo("Usuario (por defecto, su DNI)", login), nota);
+        notificador.dialogo(Feather.KEY, "Acceso del paciente", c,
+                actual.isPresent() ? "Generar nueva contraseña" : "Crear acceso", false, () -> {
+                    String temporal = com.dentavista.servicio.Seguridad.claveTemporal();
+                    var u = usuarios.crearAccesoPaciente(paciente, login.getText(), temporal, true);
+                    com.dentavista.ui.Credenciales.mostrarDespues(notificador, "Acceso del paciente listo",
+                            paciente.nombreCompleto(), u.getUsuario(), temporal, datosClinica.nombre());
+                }, 480);
     }
 
     // ===================================================================== PDF

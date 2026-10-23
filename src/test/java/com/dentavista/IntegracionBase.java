@@ -24,6 +24,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Base de las pruebas de integración: contexto completo de Spring sobre una base
  * SQLite temporal y sin datos de demostración.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @SpringBootTest
 public abstract class IntegracionBase {

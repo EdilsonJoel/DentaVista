@@ -39,6 +39,8 @@ import java.util.Locale;
 /**
  * Agenda semanal del consultorio (lunes a sábado). Clic en un espacio libre para agendar,
  * clic en una cita para confirmarla, atenderla o cancelarla.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Component
 @Scope("prototype")

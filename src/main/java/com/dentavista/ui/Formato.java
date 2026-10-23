@@ -9,7 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
-/** Formatos de fecha y moneda (soles) usados en toda la aplicación. */
+/**
+ * Formatos de fecha y moneda (soles) usados en toda la aplicación.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 public final class Formato {
 
     private static final Locale PE = Locale.forLanguageTag("es-PE");

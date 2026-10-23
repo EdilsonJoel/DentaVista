@@ -18,7 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.kordamp.ikonli.feather.Feather;
 import org.springframework.stereotype.Component;
 
-/** Detalle de una cita con sus acciones (confirmar, atender, no asistió, cancelar). */
+/**
+ * Detalle de una cita con sus acciones (confirmar, atender, no asistió, cancelar).
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Component
 @RequiredArgsConstructor
 public class DetalleCita {

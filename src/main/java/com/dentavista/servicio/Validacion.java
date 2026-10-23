@@ -8,7 +8,11 @@ import org.springframework.stereotype.Component;
 import java.util.Comparator;
 import java.util.Set;
 
-/** Valida entidades con Bean Validation y traduce el primer error a {@link NegocioException}. */
+/**
+ * Valida entidades con Bean Validation y traduce el primer error a {@link NegocioException}.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Component
 @RequiredArgsConstructor
 public class Validacion {

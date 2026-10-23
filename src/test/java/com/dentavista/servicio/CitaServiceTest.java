@@ -18,7 +18,11 @@ import java.time.LocalTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Agenda: horario, cruces de horario y permisos de pacientes con acceso propio. */
+/**
+ * Agenda: horario, cruces de horario y permisos de pacientes con acceso propio.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class CitaServiceTest extends IntegracionBase {
 
     @Autowired private CitaService citas;

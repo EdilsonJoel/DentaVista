@@ -21,6 +21,8 @@ import java.util.Objects;
  * Arranca la aplicación: muestra al instante una pantalla de carga y, en segundo
  * plano, levanta Spring (base de datos y servicios) y prepara el modelo 3D. Cuando
  * todo está listo pasa a la pantalla de acceso. Así la app nunca parece "colgada".
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public class JavaFxApplication extends Application {
 
@@ -94,7 +96,11 @@ public class JavaFxApplication extends Application {
                 cargarServicios();
                 Platform.runLater(() -> {
                     context.getBean(Tema.class).aplicarInicial();
-                    mostrarLogin();
+                    if (context.getBean(com.dentavista.servicio.ConfiguracionInicialService.class).requiereConfiguracion()) {
+                        mostrarConfiguracion();
+                    } else {
+                        mostrarLogin();
+                    }
                 });
             } catch (Exception e) {
                 Platform.runLater(() -> {
@@ -158,6 +164,16 @@ public class JavaFxApplication extends Application {
         ventana.setMinHeight(660);
         ventana.centerOnScreen();
         context.getBean(LoginController.class).alMostrar();
+    }
+
+    /** Primer uso: asistente para registrar el consultorio y su administrador. */
+    public void mostrarConfiguracion() {
+        Parent raiz = context.getBean(com.dentavista.vista.ConfiguracionInicialVista.class).vista();
+        Scene escena = escena(raiz, 1240, 780);
+        ventana.setScene(escena);
+        ventana.setMinWidth(1080);
+        ventana.setMinHeight(700);
+        ventana.centerOnScreen();
     }
 
     public void mostrarPanel() {

@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 @Entity
 @Table(name = "usuario",
         uniqueConstraints = @UniqueConstraint(name = "uk_usuario_login", columnNames = "usuario"))
@@ -61,10 +62,22 @@ public class Usuario {
     @Column(name = "ultimo_acceso")
     private LocalDateTime ultimoAcceso;
 
+    /**
+     * La contraseña es temporal (la asignó el administrador): se pide crear una propia
+     * al ingresar. Columna opcional para que las bases anteriores se actualicen solas.
+     */
+    @Builder.Default
+    @Column(name = "debe_cambiar_clave")
+    private Boolean debeCambiarClave = false;
+
     /** Solo para el rol PACIENTE: la ficha a la que tiene acceso. */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
+
+    public boolean requiereCambioClave() {
+        return Boolean.TRUE.equals(debeCambiarClave);
+    }
 
     /** "Dra. Lucía Paredes" -> "LP". */
     public String iniciales() {

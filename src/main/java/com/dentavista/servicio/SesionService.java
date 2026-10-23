@@ -5,7 +5,11 @@ import com.dentavista.modelo.Rol;
 import com.dentavista.modelo.Usuario;
 import org.springframework.stereotype.Component;
 
-/** Usuario autenticado durante la vida de la aplicación. */
+/**
+ * Usuario autenticado durante la vida de la aplicación.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Component
 public class SesionService {
 

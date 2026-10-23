@@ -17,7 +17,11 @@ import static com.dentavista.dominio.Superficie.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Ciclo completo: diagnóstico → plan → realizado → odontograma actualizado. */
+/**
+ * Ciclo completo: diagnóstico → plan → realizado → odontograma actualizado.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 class PlanServiceTest extends IntegracionBase {
 
     @Autowired

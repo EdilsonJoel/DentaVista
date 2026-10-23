@@ -6,7 +6,11 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-/** Una visita del paciente al consultorio: agrupa los hallazgos y tratamientos de ese día. */
+/**
+ * Una visita del paciente al consultorio: agrupa los hallazgos y tratamientos de ese día.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Entity
 @Table(name = "consulta", indexes = @Index(name = "ix_consulta_paciente", columnList = "paciente_id, fecha"))
 @Getter

@@ -1,6 +1,10 @@
 package com.dentavista.modelo;
 
-/** Medios de pago habituales en un consultorio peruano. */
+/**
+ * Medios de pago habituales en un consultorio peruano.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 public enum MedioPago {
 
     EFECTIVO("Efectivo"),

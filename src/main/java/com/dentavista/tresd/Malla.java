@@ -15,6 +15,8 @@ import java.util.Map;
  * geometria que necesita el odontograma 3D: lectura de OBJ, soldado de vertices,
  * separacion en piezas conexas, subdivision Catmull-Clark y normales suaves.
  * Es Java puro (sin JavaFX) para poder probarla con pruebas unitarias.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 public final class Malla {
 

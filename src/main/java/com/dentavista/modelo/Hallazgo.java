@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 /**
  * Registro clínico sobre una pieza o una de sus caras. Es la única fuente de verdad
  * del odontograma: el estado de la boca se reconstruye a partir de estos registros.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Entity
 @Table(name = "hallazgo", indexes = @Index(name = "ix_hallazgo_paciente", columnList = "paciente_id, fecha"))

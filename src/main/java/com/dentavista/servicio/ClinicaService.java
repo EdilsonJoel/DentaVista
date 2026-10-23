@@ -26,6 +26,8 @@ import java.util.List;
  * registro. El odontograma nunca se guarda "pintado": se reconstruye con
  * {@link #odontograma(Paciente, LocalDateTime)}.
  * </p>
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Service
 @RequiredArgsConstructor

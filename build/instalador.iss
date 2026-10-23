@@ -1,12 +1,13 @@
-; Instalador de DentaVista para Windows (Inno Setup 6).
+﻿; Instalador de DentaVista para Windows (Inno Setup 6).
+; @author EREJM (Everson Ricardo · Edilson Joel · Michael)
 ; Empaqueta la imagen de jpackage (DentaVista.exe + su propio Java) en un único
 ; DentaVista-<versión>-Setup.exe. No pide permisos de administrador: se instala para el
 ; usuario actual, crea accesos directos y queda en "Agregar o quitar programas".
 ;
-; Uso:  iscc /DVersion=2.0.0 /DOrigen=..\dist\DentaVista /DSalida=..\dist build\instalador.iss
+; Uso:  iscc /DVersion=2.1.0 /DOrigen=..\dist\DentaVista /DSalida=..\dist build\instalador.iss
 
 #ifndef Version
-  #define Version "2.0.0"
+  #define Version "2.1.0"
 #endif
 #ifndef Origen
   #define Origen "..\dist\DentaVista"
@@ -20,7 +21,8 @@ AppId={{6E1B0A52-4C7F-4D1E-9A2B-DE47A0C3F5B1}
 AppName=DentaVista
 AppVersion={#Version}
 AppVerName=DentaVista {#Version}
-AppPublisher=DentaVista
+AppPublisher=EREJM · DentaVista
+AppCopyright=© 2026 EREJM (Everson Ricardo, Edilson Joel, Michael)
 AppPublisherURL=https://github.com/EdilsonJoel/DentaVista
 AppSupportURL=https://github.com/EdilsonJoel/DentaVista/issues
 DefaultDirName={localappdata}\Programs\DentaVista

@@ -38,6 +38,8 @@ import java.util.List;
  * Inicio: lo que el consultorio necesita ver al empezar el día. Citas de hoy,
  * solicitudes por confirmar, pacientes que deben y pacientes con tratamientos
  * pendientes que todavía no tienen cita.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Component
 @Scope("prototype")

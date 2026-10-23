@@ -8,7 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/** Catálogo de tratamientos y precios del consultorio. */
+/**
+ * Catálogo de tratamientos y precios del consultorio.
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional

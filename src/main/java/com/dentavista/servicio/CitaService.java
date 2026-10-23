@@ -28,6 +28,8 @@ import java.util.Optional;
  *   <li>El <b>personal</b> agenda citas confirmadas; el <b>paciente</b> las solicita y la
  *       recepción las confirma.</li>
  * </ul>
+ *
+ * @author EREJM (Everson Ricardo · Edilson Joel · Michael)
  */
 @Service
 @RequiredArgsConstructor

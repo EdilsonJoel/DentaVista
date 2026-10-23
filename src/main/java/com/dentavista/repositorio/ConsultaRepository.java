@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/** @author EREJM (Everson Ricardo · Edilson Joel · Michael) */
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
 
     List<Consulta> findByPacienteOrderByFechaDesc(Paciente paciente);
