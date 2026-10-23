@@ -11,9 +11,9 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.dentavista</groupId>
+    <groupId>com.erejm</groupId>
     <artifactId>dentavista</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
     <name>DentaVista</name>
     <description>Gestión clínica dental: odontograma 3D, agenda, presupuestos y pagos</description>
 
@@ -136,7 +136,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.dentavista.Launcher</mainClass>
+                    <mainClass>com.erejm.dentavista.Launcher</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -150,7 +150,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.dentavista.Launcher</mainClass>
+                    <mainClass>com.erejm.dentavista.Launcher</mainClass>
                 </configuration>
             </plugin>
         </plugins>

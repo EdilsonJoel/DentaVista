@@ -15,7 +15,7 @@
 <!-- Panel principal: menú lateral oscuro + área de contenido con capas
      para diálogos modales y notificaciones flotantes. -->
 <StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.dentavista.vista.MainController" fx:id="raiz" styleClass="app">
+           fx:controller="com.erejm.dentavista.vista.MainController" fx:id="raiz" styleClass="app">
 
     <BorderPane>
         <left>

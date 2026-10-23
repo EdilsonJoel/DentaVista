@@ -13,7 +13,7 @@
 <!-- Acceso: a la izquierda la dentadura 3D girando (la "vitrina" del producto),
      a la derecha el formulario. -->
 <HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.dentavista.vista.LoginController" styleClass="app">
+      fx:controller="com.erejm.dentavista.vista.LoginController" styleClass="app">
 
     <StackPane fx:id="escenario" styleClass="login-escenario" HBox.hgrow="ALWAYS">
         <VBox fx:id="textos" spacing="14" pickOnBounds="false" StackPane.alignment="TOP_LEFT">

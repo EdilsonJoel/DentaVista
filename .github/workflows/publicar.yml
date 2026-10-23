@@ -32,7 +32,7 @@ jobs:
       - name: Armar el ejecutable (incluye Java, no requiere instalar nada)
         shell: pwsh
         run: |
-          $version = if ($env:GITHUB_REF_TYPE -eq "tag") { $env:GITHUB_REF_NAME.TrimStart("v") } else { "2.1.0" }
+          $version = if ($env:GITHUB_REF_TYPE -eq "tag") { $env:GITHUB_REF_NAME.TrimStart("v") } else { "2.1.1" }
           New-Item -ItemType Directory -Force build/staging | Out-Null
           Copy-Item target/dentavista-*.jar build/staging/
           $jar = (Get-ChildItem build/staging/dentavista-*.jar).Name

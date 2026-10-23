@@ -4,10 +4,10 @@
 ; DentaVista-<versión>-Setup.exe. No pide permisos de administrador: se instala para el
 ; usuario actual, crea accesos directos y queda en "Agregar o quitar programas".
 ;
-; Uso:  iscc /DVersion=2.1.0 /DOrigen=..\dist\DentaVista /DSalida=..\dist build\instalador.iss
+; Uso:  iscc /DVersion=2.1.1 /DOrigen=..\dist\DentaVista /DSalida=..\dist build\instalador.iss
 
 #ifndef Version
-  #define Version "2.1.0"
+  #define Version "2.1.1"
 #endif
 #ifndef Origen
   #define Origen "..\dist\DentaVista"

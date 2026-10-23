@@ -12,7 +12,7 @@
 ## Descargar
 
 **[⬇ Descargar el instalador para Windows](https://github.com/EdilsonJoel/DentaVista/releases/latest)**:
-baja `DentaVista-2.1.0-Setup.exe`, ábrelo y sigue el asistente (crea el acceso directo en el escritorio).
+baja `DentaVista-2.1.1-Setup.exe`, ábrelo y sigue el asistente (crea el acceso directo en el escritorio).
 Trae su propio Java, **no pide permisos de administrador** y se desinstala desde *Agregar o quitar programas*.
 La primera vez se abre **Configurar consultorio**: registras los datos de la clínica y creas la cuenta del
 administrador (con la opción de cargar pacientes de ejemplo para conocer el sistema).
@@ -72,7 +72,7 @@ Requisitos: **JDK 17 o superior** (probado con JDK 21). Maven viene incluido (`m
 ```
 
 En Windows: `mvnw.cmd javafx:run`. Desde IntelliJ IDEA: abrir la carpeta como proyecto
-Maven y ejecutar `com.dentavista.Launcher`.
+Maven y ejecutar `com.erejm.dentavista.Launcher`.
 
 La base de datos (SQLite) se crea sola en `%LOCALAPPDATA%\DentaVista`. La primera vez se abre el
 asistente **Configurar consultorio** (datos de la clínica y cuenta del administrador); allí se puede
@@ -106,8 +106,8 @@ cuentas con contraseña temporal, seguridad y datos de ejemplo.
 ejecutable y lo publica en *Releases* listo para descargar:
 
 ```bash
-git tag v2.1.0
-git push origin v2.1.0
+git tag v2.1.1
+git push origin v2.1.1
 ```
 
 **Manual:**
@@ -115,19 +115,19 @@ git push origin v2.1.0
 ```bash
 ./mvnw package -DskipTests
 mkdir build\staging
-copy target\dentavista-2.1.0.jar build\staging\
-jpackage --type app-image --name DentaVista --input build/staging --main-jar dentavista-2.1.0.jar ^
-  --icon build/icono.ico --dest dist --app-version 2.1.0 --vendor "DentaVista"
+copy target\dentavista-2.1.1.jar build\staging\
+jpackage --type app-image --name DentaVista --input build/staging --main-jar dentavista-2.1.1.jar ^
+  --icon build/icono.ico --dest dist --app-version 2.1.1 --vendor "DentaVista"
 ```
 
 Genera `dist/DentaVista/DentaVista.exe` (incluye su propio Java; no requiere instalar nada). Para el
 instalador, con [Inno Setup 6](https://jrsoftware.org/isinfo.php):
 
 ```bash
-iscc /DVersion=2.1.0 build\instalador.iss
+iscc /DVersion=2.1.1 build\instalador.iss
 ```
 
-Genera `dist/DentaVista-2.1.0-Setup.exe`.
+Genera `dist/DentaVista-2.1.1-Setup.exe`.
 
 ### ¿Y en el celular?
 
@@ -138,7 +138,7 @@ macOS y Linux se ejecuta con `./mvnw javafx:run`.
 ## Arquitectura
 
 ```
-com.dentavista
+com.erejm.dentavista
 ├── dominio      Lógica pura, sin Spring ni JavaFX: Pieza (FDI), Superficie,
 │                EstadoDental y Odontograma (reconstrucción desde los registros)
 ├── modelo       Entidades JPA: Paciente, Consulta, Hallazgo, Tratamiento, ItemPlan, Usuario
@@ -190,8 +190,9 @@ Ikonli · OpenPDF · JUnit 5**.
 
 ## Autores
 
-**Equipo EREJM** — las iniciales aparecen en cada clase (`@author EREJM`), en el `pom.xml`, en el instalador
-y en la documentación.
+**Equipo EREJM** — las iniciales están en el propio código: todas las clases viven en el paquete
+`com.erejm.dentavista` (groupId `com.erejm`), y además cada clase lleva `@author EREJM`. También aparecen
+en el instalador y en la documentación.
 
 | Iniciales | Integrante |
 |---|---|
